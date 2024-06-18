@@ -9,7 +9,7 @@ pipeline {
             name: 'PERFORM_ACTION')
 
         choice(
-            choices: ['Development', 'Production'],
+            choices: ['development', 'production'],
             description: 'Environment to Provision Infrastructure',
             name: 'ENVIRONMENT')
     }

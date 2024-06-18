@@ -18,7 +18,7 @@ pipeline {
         stage('Terraform Initialisation') {
             steps {
                 sh 'rm -rf .terraform'
-                sh 'terraform init -backend-config="${ENVIRONMENT}/${ENVIRONMENT}.tfbackend"'
+                sh 'terraform init -backend-config="${ENVIRONMENT}/${ENVIRONMENT}.tfbackend" '
             }
         }
 

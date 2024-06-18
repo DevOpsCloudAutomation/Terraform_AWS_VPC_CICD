@@ -24,7 +24,7 @@ pipeline {
 
         stage('Terraform Validate') {
             steps {
-                sh 'terraform validate'
+                sh 'terraform validate -no-color'
             }
         }
 
@@ -34,7 +34,7 @@ pipeline {
             }
 
             steps {
-                sh 'terraform plan -input=false -out=tfplan --var-file=${ENVIRONMENT}/${ENVIRONMENT}.tfvars'
+                sh 'terraform plan -input=false -no-color -out=tfplan --var-file=${ENVIRONMENT}/${ENVIRONMENT}.tfvars'
             }
         }
 
@@ -44,7 +44,7 @@ pipeline {
             }
 
             steps {
-                sh 'terraform show tfplan > tfplan.txt'
+                sh 'terraform show -no-color tfplan > tfplan.txt'
                 script {
                     def plan = readFile 'tfplan.txt'
                     input message: "Apply the Terraform Plan..??",
@@ -59,7 +59,7 @@ pipeline {
             }
 
             steps {
-                sh 'terraform apply -input=false tfplan'
+                sh 'terraform apply -no-color -input=false tfplan'
             }
         }
 
@@ -69,8 +69,8 @@ pipeline {
             }
 
             steps {
-                sh 'terraform plan -destroy -out=tfplan --var-file=${ENVIRONMENT}/${ENVIRONMENT}.tfvars'
-                sh 'terraform show tfplan > tfplan.txt'
+                sh 'terraform plan -no-color -destroy -out=tfplan --var-file=${ENVIRONMENT}/${ENVIRONMENT}.tfvars'
+                sh 'terraform show -no-color tfplan > tfplan.txt'
             }
         }
 
@@ -85,7 +85,7 @@ pipeline {
                     input message: "Delete the Stack..??",
                     parameters: [text(name: 'Plan', description: 'Review the Terraform Plan', defaultValue: plan)]
                 }
-                sh 'terraform destroy --auto-approve'
+                sh 'terraform destroy -no-color --auto-approve'
             }
         }
     }
